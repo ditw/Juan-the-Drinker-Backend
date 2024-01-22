@@ -36,10 +36,10 @@ RUN composer install --prefer-dist --no-interaction
 RUN php artisan config:cache && \
     php artisan route:cache && \
     chmod 777 -R /var/www/html/storage/ && \
-    chown -R www-data:www-data /var/www/
+    chown -R www-data:www-data /var/www/ && \
+    chmod o+w ./storage/ -R
 
-RUN php artisan migrate && \
-    php artisan db:seed
+RUN php artisan storage:link
 
 CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
 
